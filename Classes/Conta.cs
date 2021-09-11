@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace DIO.Bank
 {
@@ -56,6 +57,29 @@ namespace DIO.Bank
             retorno += "Saldo " + this.Saldo + " | ";
             retorno += "Crédito " + this.Credito;
 			return retorno;
+		}
+
+		public void AumentarCredito(double novoLimite)
+		{
+			//valida se saldo e crédito não são negativos
+			//limita o aumento de crédito para o dobro do crédito atual
+			if((this.Saldo < 0 || this.Credito < 0))
+			{
+				Console.WriteLine("Saldo ou créditos atuais da conta estão negativados!");
+				Console.WriteLine("Saldo atual da conta de {0} é {1} e seu crédito é de {2}.", this.Nome, this.Saldo, this.Credito);
+			}
+			
+			else if(novoLimite > Credito * 2 )
+			{
+				Console.WriteLine("O novo valor de crédito não pode ser o dobro do atual!");
+				Console.WriteLine("Saldo atual da conta de {0} é {1} e seu crédito é de {2}.", this.Nome, this.Saldo, this.Credito);
+			}
+
+			else
+			{
+				this.Credito=novoLimite;
+				Console.WriteLine("Limite de crédito da conta {0} aumentado para {1}.", this.Nome, this.Credito);
+			}
 		}
 	}
 }

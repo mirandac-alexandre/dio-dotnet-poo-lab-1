@@ -29,12 +29,17 @@ namespace DIO.Bank
 					case "5":
 						Depositar();
 						break;
+					case "6":
+						AumentarCredito();
+						break;
                     case "C":
 						Console.Clear();
 						break;
 
 					default:
-						throw new ArgumentOutOfRangeException();
+						Console.WriteLine("Favor digitar uma opção válida.");
+						Console.Clear();
+						break;
 				}
 
 				opcaoUsuario = ObterOpcaoUsuario();
@@ -42,6 +47,24 @@ namespace DIO.Bank
 			
 			Console.WriteLine("Obrigado por utilizar nossos serviços.");
 			Console.ReadLine();
+		}
+
+		private static void AumentarCredito()
+		{
+			Console.Write("Digite o número da conta: ");
+			int indiceConta = int.Parse(Console.ReadLine());
+
+			Console.Write("Digite o valor do novo limite desejado: ");
+			double novoLimite = double.Parse(Console.ReadLine());
+
+			Console.WriteLine();
+
+			if(listContas.Count > indiceConta)
+			    listContas[indiceConta].AumentarCredito(novoLimite);
+			else
+				Console.WriteLine("A conta {0} não existe!", indiceConta);
+
+			Console.WriteLine();
 		}
 
 		private static void Depositar()
@@ -52,7 +75,14 @@ namespace DIO.Bank
 			Console.Write("Digite o valor a ser depositado: ");
 			double valorDeposito = double.Parse(Console.ReadLine());
 
-            listContas[indiceConta].Depositar(valorDeposito);
+			Console.WriteLine();
+
+			if(listContas.Count > indiceConta)
+			    listContas[indiceConta].Depositar(valorDeposito);
+			else
+				Console.WriteLine("A conta {0} não existe!", indiceConta);
+
+			Console.WriteLine();
 		}
 
 		private static void Sacar()
@@ -63,7 +93,14 @@ namespace DIO.Bank
 			Console.Write("Digite o valor a ser sacado: ");
 			double valorSaque = double.Parse(Console.ReadLine());
 
-            listContas[indiceConta].Sacar(valorSaque);
+			Console.WriteLine();
+
+			if(listContas.Count > indiceConta)
+			    listContas[indiceConta].Sacar(valorSaque);
+			else
+				Console.WriteLine("A conta {0} não existe!", indiceConta);
+
+			Console.WriteLine();
 		}
 
 		private static void Transferir()
@@ -76,6 +113,19 @@ namespace DIO.Bank
 
 			Console.Write("Digite o valor a ser transferido: ");
 			double valorTransferencia = double.Parse(Console.ReadLine());
+
+			Console.WriteLine();
+
+			if(listContas.Count > indiceContaDestino)
+				if(listContas.Count > indiceContaOrigem)
+			    	listContas[indiceContaOrigem].Transferir(valorTransferencia, listContas[indiceContaDestino]);
+				else 
+					Console.WriteLine("A conta {0} não existe!", indiceContaDestino);
+
+			else
+				Console.WriteLine("A conta {0} não existe!", indiceContaOrigem);
+
+			Console.WriteLine();
 
             listContas[indiceContaOrigem].Transferir(valorTransferencia, listContas[indiceContaDestino]);
 		}
@@ -133,6 +183,7 @@ namespace DIO.Bank
 			Console.WriteLine("3- Transferir");
 			Console.WriteLine("4- Sacar");
 			Console.WriteLine("5- Depositar");
+			Console.WriteLine("6- Solicitar Aumento de Crédito");
             Console.WriteLine("C- Limpar Tela");
 			Console.WriteLine("X- Sair");
 			Console.WriteLine();
